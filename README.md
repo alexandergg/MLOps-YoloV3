@@ -72,14 +72,8 @@ To deactivate the environment:
 ![Azure Devops](./images/azuredevops-cd.jpg)
 
 ## Pipelines
-### Continuous integration
-There will be two continuouos integration (CI) pipelines. One, where all the infraestructure will be set up (CI-IaC) and other more specific to AI projects (CI-MLOps)
-
-Any of this pipelines can be manually triggered. To do so, you should go to the Azure DevOps portal, click on Pipelines>Pipelines, select the desired pipeline and click on run pipeline.
-
 #### CI-PPE Module
 This pipeline will update the docker image when any change is done to the Dockerfile and it will create an artifact with the IoT manifest. Where the ACR password, username and the Docer image name will be automatically filled with the values specified in the DevOps Library.
-
 
 ### CI - Infrastructure As Code
 This pipeline will automatically create the resource group and the services needed in the subscription that will be specified in the *cloud_environment.json* file located in the *environment_setup/arm_templates* folder.
@@ -87,31 +81,26 @@ This pipeline will automatically create the resource group and the services need
 This pipeline will be automatically triggered when a change is done in the ARM template.
 
 ### CI - MLOps
-The CI-MLOps pipeline refers to the AI part of the project. 
-In this pipeline we will build the continuous integration pipeline by using the Azure DevOps Project along with Azure ML services for model retraining pipeline, model management and operationalization. 
+MLOps will help you to understand how to build the Continuous Integration and Continuous Delivery pipeline for a ML/AI project. We will be using the Azure DevOps Project for build and release/deployment pipelines along with Azure ML services for model retraining pipeline, model management and operationalization.
 
 ![ML lifecycle](./images/ml-lifecycle.png)
 
-The build pipelines include DevOps tasks for model training on different compute targets, model version management, model evaluation/model selection and model deployment. There will be one specific pipeline for each module: 
+This template contains code and pipeline definition for a machine learning project demonstrating how to automate an end to end ML/AI workflow. The build pipelines include DevOps tasks for check quality, generate/update datstore in our AML resource, generate Pascal VOC annotation, model training on different compute targets, model version management, model evaluation/model selection, model deployment embedded on IoT Module (Edge).
 
-- CI-PPE-MLOps (not implemented yet)
+### Continuous Integration
+There will be two continuouos integration (CI) pipelines. One, where all the infraestructure will be set up (CI-IaC) and other more specific to AI projects (CI-MLOps)
 
-#### CI-PPE Module
-To be completed
+Any of this pipelines can be manually triggered. To do so, you should go to the Azure DevOps portal, click on Pipelines>Pipelines, select the desired pipeline and click on run pipeline.
 
-### Continuous deployment 
 During the continuous integration an artifact is created that will leater be released during the continuous deployment.
 
-To be completed
-
-***
-
-### Train Model
-To be completed
-
-
-### Deploy Model
-To be completed
+![ML lifecycle](./images/DevOps_AI_steps.png)
+![ML lifecycle](./images/DevOps_AI_steps_2.png)
 
 ### References
-To be completed
+
+- [Azure Machine Learning(Azure ML) Service Workspace](https://docs.microsoft.com/en-us/azure/machine-learning/service/overview-what-is-azure-ml)
+- [Azure ML CLI](https://docs.microsoft.com/en-us/azure/machine-learning/service/reference-azure-machine-learning-cli)
+- [Azure ML Samples](https://docs.microsoft.com/en-us/azure/machine-learning/service/samples-notebooks)
+- [Azure ML Python SDK Quickstart](https://docs.microsoft.com/en-us/azure/machine-learning/service/quickstart-create-workspace-with-python)
+- [Azure DevOps](https://docs.microsoft.com/en-us/azure/devops/?view=vsts)
