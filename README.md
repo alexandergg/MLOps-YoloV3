@@ -9,14 +9,7 @@ products:
 description: ""
 ---
 
-# MLOps using Azure ML Services, Azure DevOps and IoT Modules - Helmet Detection with YoloV3 
-## Introduction
-The objective is to develop two proofs of concept that allow the use of Artificial Intelligence for the detection of PPE and number of workers in a given area to be validated both at a technical and business level. 
-
-### People detection
-The objetive of this scenario is to detect and count the number of people in a given area. It is an essential and significant task in any intelligent video surveillance system.
-
-A README with more information on how this model will work and the investigation done for this module is being created.
+# MLOps using Azure ML Services, Azure DevOps - Helmet Detection with YoloV3
 
 ### PPE detection
 The objetive of this scenario is to detect personal protective equipment (PPE), such as helmets and caps. Thanks to this, accidents can be avoided and it can be checked if the security measures are met sending an alert in case it is not.
@@ -96,6 +89,47 @@ During the continuous integration an artifact is created that will leater be rel
 
 ![ML lifecycle](./images/DevOps_AI_steps.png)
 ![ML lifecycle](./images/DevOps_AI_steps_2.png)
+
+### Azure Machine Learning Pipeline
+
+#### Train step
+
+1. model.zip -> Zip with saved_model.pb with variables files
+2. log.zip -> Zip with tf runs logs. Download it and view in your local with Tensorboard the progress of your training
+
+- `tensorboard --logdir=data/log`
+
+- Go to `http://localhost:6006/`
+
+![tensorboard](./images/tensorboard.PNG)
+
+3. checkpoints -> Zip with weights of the Tensorflow model
+
+![train step](./images/pipeline_train_1.PNG)
+
+#### Evaluate step
+
+1. grtruth.zip -> Zip with ground truth detections
+2. predicted.zip -> Zip with predicted detections
+3. model.zip -> Zip with saved_model.pb with variables files
+
+![evaluate step](./images/pipeline_evaluate.PNG)
+
+#### Report step
+
+1. saved_model.pb -> Tensorflow model 
+2. report.zip -> Zip with metrics results and plots
+
+![report step](./images/pipeline_report.PNG)
+
+#### Final report of AML Pipeline
+
+![ground-truth](./images/Ground-Truth-Info.png)
+![helmet](./images/helmet.png)mAP.png
+![none](./images/none.png)
+![mAP](./images/mAP.png)
+![predictions](./images/Predicted-Objects-Info.png)
+
 
 ### References
 
