@@ -9,12 +9,68 @@ products:
 description: ""
 ---
 
-# MLOps using Azure ML Services, Azure DevOps - Helmet Detection with YoloV3
+# MLOps practices using Azure ML service with Python SDK for Tensorflow 2.0 YoloV3 model training
 
-### PPE detection
-The objetive of this scenario is to detect personal protective equipment (PPE), such as helmets and caps. Thanks to this, accidents can be avoided and it can be checked if the security measures are met sending an alert in case it is not.
+This example belongs [Official Azure MLOps repo](https://github.com/Microsoft/MLOps). The objetive of this scenario is to create your own **YoloV3** training by **MLOps** tasks. This sample shows you how to operationalize your Machine Learning development
+cycle with **Azure Machine Learning Service**  with **Tensorflow 2.0** using YoloV3 architecture - as a
+compute target - by **leveraging Azure DevOps Pipelines** as the orchestrator for the whole flow.
 
-![PPE detection example](./images/helmet_detection.jpg)
+By running this project, you will have the opportunity to work with Azure
+workloads, such as:
+
+|Technology|Objective/Reason|
+|----------|----------------|
+|Azure DevOps|The platform to help you implement DevOps practices on your scenario|
+|Azure Machine Learning Service|Manage Machine Learning models with the power of Azure|
+|Tensorflow 2.0|Use its power for training models|
+|YoloV3|Deep Learning Architecture model for Object Detection|
+
+
+# MLOps on Azure
+- [![Build Status](https://dev.azure.com/aidemos/MLOps/_apis/build/status/microsoft.MLOps?branchName=master)](https://dev.azure.com/aidemos/MLOps/_build/latest?definitionId=96?branchName=master)
+- [Example MLOps Release Pipeline](https://dev.azure.com/customai/DevopsForAI-AML/_release?view=all&_a=releases&definitionId=16)
+- [Official Python Azure MLOps repo](https://github.com/Microsoft/MLOpsPython)
+- [MLOps Architecture Deep Dive video](https://www.youtube.com/watch?v=nst3UAGpiBA)
+
+
+## What is MLOps?
+MLOps empowers data scientists and app developers to help bring ML models to production. 
+MLOps enables you to track / version / audit / certify / re-use every asset in your ML lifecycle and provides orchestration services to streamline managing this lifecycle.
+
+### MLOps podcast
+Check out the recent TwiML podcast on MLOps [here](https://twimlai.com/twiml-talk-321-enterprise-readiness-mlops-and-lifecycle-management-with-jordan-edwards/) 
+
+## How does Azure ML help with MLOps?
+Azure ML contains a number of asset management and orchestration services to help you manage the lifecycle of your model training & deployment workflows.
+
+With **Azure ML + Azure DevOps** you can effectively and cohesively manage your datasets, experiments, models, and ML-infused applications.
+![ML lifecycle](./media/ml-lifecycle.png)
+
+## New MLOps features
+- [Azure DevOps Machine Learning extension](https://marketplace.visualstudio.com/items?itemName=ms-air-aiagility.vss-services-azureml) 
+- [Azure ML CLI](https://aka.ms/azmlcli)
+- [Create event driven workflows](https://docs.microsoft.com/azure/machine-learning/service/how-to-use-event-grid) using Azure Machine Learning and Azure Event Grid for scenarios such as triggering retraining pipelines
+- [Set up model training & deployment with Azure DevOps](https://docs.microsoft.com/en-us/azure/devops/pipelines/targets/azure-machine-learning?view=azure-devops)
+
+> If you are using the Machine Learning DevOps extension, you can access model name and version info using these variables:
+> - Model Name: Release.Artifacts.{alias}.DefinitionName containing model name
+> - Model Version: Release.Artifacts.{alias}.BuildNumber 
+> where alias is source alias set while adding the release artifact. 
+
+## Getting Started / MLOps Workflow
+An example repo which exercises our recommended flow can be found [here](https://github.com/Microsoft/MLOpsPython)
+
+## MLOps Best Practices
+### Train Model
+- Data scientists work in topic branches off of master.
+- When code is pushed to the Git repo, trigger a CI (continuous integration) pipeline.
+- First run: Provision infra-as-code (ML workspace, compute targets, datastores).
+- For new code: Every time new code is committed to the repo, run unit tests, data quality checks, train model.
+
+We recommend the following steps in your CI process:
+- **Train Model** - run training code / algo & output a [model](https://docs.microsoft.com/en-us/azure/machine-learning/concept-azure-machine-learning-architecture#model) file which is stored in the [run history](https://docs.microsoft.com/en-us/azure/machine-learning/service/concept-azure-machine-learning-architecture#run).
+- **Evaluate Model** - compare the performance of newly trained model with the model in production. If the new model performs better than the production model, the following steps are executed. If not, they will be skipped.
+- **Register Model** - take the best model and register it with the [Azure ML Model registry](https://docs.microsoft.com/en-us/azure/machine-learning/service/concept-azure-machine-learning-architecture#model-registry). This allows us to version control it.
 
 ***
 
@@ -48,7 +104,7 @@ To create the virtual environment the _requirements.txt_ file will be used. It c
 
 To create the environment, first you will need to create a conda environment:
 
-Go to `epis\code\ppe\experiment\ml_service\pipelines\environment_ppe.yml`
+Go to `code\ppe\experiment\ml_service\pipelines\environment_ppe.yml`
 
 `conda create --name <environment_name>`
 
