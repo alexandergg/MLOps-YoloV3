@@ -33,19 +33,6 @@ stages:
         displayName: Compile all
         inputs:
           script: 'python -m compileall code\'
-      - task: Docker@2
-        inputs:
-          containerRegistry: 'acr'
-          repository: 'iot/ppemodule'
-          command: 'buildAndPush'
-          Dockerfile: '**/Dockerfile'
-      - task: JSONTokenizer@1
-        inputs:
-          sourcePath: 'code/ppe/module'
-          filePattern: 'manifest.json'
-          tokenizeType: 'json'
-          includes: 'modulesContent.$edgeAgent.properties.desired.runtime.settings.registryCredentials.acrmodules.password,modulesContent.$edgeAgent.properties.desired.runtime.settings.registryCredentials.acrmodules.username,modulesContent.$edgeAgent.properties.desired.modules.ppemodule.settings.image'
-          excludes: 
 - stage: 'GENERATE_DATASTORE'
   displayName: 'Generate Datastore'
   jobs:
@@ -112,17 +99,3 @@ stages:
       displayName: 'Trigger Training Pipeline'
       env:
         SP_APP_SECRET: '$(SP_APP_SECRET)'
-    - task: CopyFiles@2
-      displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
-      inputs:
-        SourceFolder: '$(Build.SourcesDirectory)'
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
-        Contents: |
-          code/ppe/module/**
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact'
-      inputs:
-        ArtifactName: 'ppe-artifact'
-        publishLocation: 'container'
-        pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        TargetPath: '$(Build.ArtifactStagingDirectory)'
